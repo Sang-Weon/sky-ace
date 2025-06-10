@@ -22,7 +22,7 @@ export default function JournalEntryAgent() {
           <div className="flex items-center space-x-3">
             <Bot className="h-8 w-8 text-blue-600" />
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">AI 전표처리 에이전트</h1>
+              <h1 className="text-2xl font-bold text-gray-900">AI전표 처리 및 자동분개 에이전트</h1>
               <p className="text-sm text-gray-500">Journal Entry Automation Agent</p>
             </div>
           </div>
@@ -43,7 +43,7 @@ export default function JournalEntryAgent() {
           <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="dashboard">대시보드</TabsTrigger>
             <TabsTrigger value="document">증빙처리</TabsTrigger>
-            <TabsTrigger value="journal">전표생성</TabsTrigger>
+            <TabsTrigger value="journal">전표 처리</TabsTrigger>
             <TabsTrigger value="ai-engine">AI 자동 분개엔진</TabsTrigger>
             <TabsTrigger value="anomaly">이상탐지</TabsTrigger>
             <TabsTrigger value="erp">ERP연동</TabsTrigger>
