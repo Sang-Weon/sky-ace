@@ -186,7 +186,7 @@ export default function FinancialManagementModule() {
                 : "border-transparent text-gray-600 hover:text-gray-900"
             }`}
           >
-            <Home className="h-4 w-4" />팀 현황
+            <Users className="h-4 w-4" />팀 성과 현황
           </button>
           <button
             onClick={() => setActiveTab("reports")}
@@ -275,11 +275,77 @@ export default function FinancialManagementModule() {
         {activeTab === "team" && (
           <Card>
             <CardHeader>
-              <CardTitle>팀 현황</CardTitle>
-              <CardDescription>팀원별 처리 현황을 확인하세요</CardDescription>
+              <div className="flex items-center gap-2">
+                <Users className="h-5 w-5 text-green-600" />
+                <CardTitle>팀 성과 현황</CardTitle>
+              </div>
+              <CardDescription>실무자별 처리 현황과 정확도를 확인하세요</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="text-center py-8 text-gray-500">팀 현황 데이터를 불러오는 중...</div>
+            <CardContent className="space-y-4">
+              <div className="space-y-4">
+                <Card className="border border-gray-200">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-lg font-semibold text-gray-900 mb-1">김실무</div>
+                        <div className="text-sm text-gray-600">오늘 처리: 15건</div>
+                      </div>
+                      <div className="flex items-center gap-6">
+                        <div className="text-right">
+                          <div className="text-sm text-gray-600 mb-1">정확도</div>
+                          <div className="text-lg font-semibold text-green-600">94%</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm text-gray-600 mb-1">평균 처리시간</div>
+                          <div className="text-lg font-semibold text-blue-600">8분</div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border border-gray-200">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-lg font-semibold text-gray-900 mb-1">이실무</div>
+                        <div className="text-sm text-gray-600">오늘 처리: 12건</div>
+                      </div>
+                      <div className="flex items-center gap-6">
+                        <div className="text-right">
+                          <div className="text-sm text-gray-600 mb-1">정확도</div>
+                          <div className="text-lg font-semibold text-green-600">89%</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm text-gray-600 mb-1">평균 처리시간</div>
+                          <div className="text-lg font-semibold text-blue-600">10분</div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border border-gray-200">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-lg font-semibold text-gray-900 mb-1">박실무</div>
+                        <div className="text-sm text-gray-600">오늘 처리: 18건</div>
+                      </div>
+                      <div className="flex items-center gap-6">
+                        <div className="text-right">
+                          <div className="text-sm text-gray-600 mb-1">정확도</div>
+                          <div className="text-lg font-semibold text-green-600">96%</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm text-gray-600 mb-1">평균 처리시간</div>
+                          <div className="text-lg font-semibold text-blue-600">7분</div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </CardContent>
           </Card>
         )}
@@ -287,11 +353,254 @@ export default function FinancialManagementModule() {
         {activeTab === "reports" && (
           <Card>
             <CardHeader>
-              <CardTitle>분석 리포트</CardTitle>
-              <CardDescription>AI 분석 결과 및 처리 통계를 확인하세요</CardDescription>
+              <CardTitle>AI 기반 분석 리포트</CardTitle>
+              <CardDescription>부서별, 계정과목별, 거래유형별 상세 분석 및 드릴다운 기능을 제공합니다</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="text-center py-8 text-gray-500">분석 리포트를 생성하는 중...</div>
+            <CardContent className="space-y-6">
+              {/* 1. 주요 부서별/계정과목별/거래유형별 거래처리 현황 */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                  <BarChart3 className="h-5 w-5 text-blue-600" />
+                  거래처리 현황 분석
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-medium text-gray-900">부서별 처리 현황</h4>
+                      <ChevronRight className="h-4 w-4 text-gray-400" />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">재무팀</span>
+                        <span className="font-medium">156건 (45%)</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">영업팀</span>
+                        <span className="font-medium">89건 (26%)</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">구매팀</span>
+                        <span className="font-medium">67건 (19%)</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">기타</span>
+                        <span className="font-medium">34건 (10%)</span>
+                      </div>
+                    </div>
+                  </Card>
+
+                  <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-medium text-gray-900">계정과목별 분석</h4>
+                      <ChevronRight className="h-4 w-4 text-gray-400" />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">매입비용</span>
+                        <span className="font-medium">₩2.1억 (38%)</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">급여</span>
+                        <span className="font-medium">₩1.8억 (32%)</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">외주비</span>
+                        <span className="font-medium">₩0.9억 (16%)</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">기타</span>
+                        <span className="font-medium">₩0.8억 (14%)</span>
+                      </div>
+                    </div>
+                  </Card>
+
+                  <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-medium text-gray-900">거래유형별 분석</h4>
+                      <ChevronRight className="h-4 w-4 text-gray-400" />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">정기거래</span>
+                        <span className="font-medium">234건 (67%)</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">단발거래</span>
+                        <span className="font-medium">78건 (22%)</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">긴급거래</span>
+                        <span className="font-medium">25건 (7%)</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">수정거래</span>
+                        <span className="font-medium">13건 (4%)</span>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+              </div>
+
+              {/* 2. 평균 대비 비경상적인 분개처리 분석 */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                  <AlertTriangle className="h-5 w-5 text-orange-600" />
+                  비경상적 분개처리 분석
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Card className="p-4 bg-green-50 border-green-200">
+                    <div className="flex items-center gap-2 mb-2">
+                      <CheckCircle className="h-4 w-4 text-green-600" />
+                      <span className="text-sm font-medium text-green-800">하이브리드 AI</span>
+                      <Badge className="bg-teal-800 text-white">94%</Badge>
+                    </div>
+                    <div className="w-full bg-green-200 rounded-full h-2 mb-3">
+                      <div className="bg-teal-600 h-2 rounded-full" style={{ width: "94%" }}></div>
+                    </div>
+                    <div className="text-sm text-green-700 mb-1">분석 근거:</div>
+                    <div className="text-sm text-green-800 font-medium">
+                      긴급 검토 필요 - 계약서 및 승인서류 확인 권장
+                    </div>
+                  </Card>
+
+                  <Card className="p-4">
+                    <div className="text-sm text-gray-600 mb-2">위험 요소</div>
+                    <div className="space-y-2">
+                      <Badge variant="outline" className="mr-2">
+                        금액 이상
+                      </Badge>
+                      <Badge variant="outline" className="mr-2">
+                        거래 빈도 이상
+                      </Badge>
+                      <Badge variant="outline">신규 거래처</Badge>
+                    </div>
+                  </Card>
+                </div>
+              </div>
+
+              {/* 3. 분개처리 대상 및 완료 항목 리스트 */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  분개처리 현황 조회
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Card className="p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-medium text-gray-900">처리 대상 항목</h4>
+                      <Badge className="bg-orange-100 text-orange-800">15건 대기</Badge>
+                    </div>
+                    <div className="space-y-2 max-h-48 overflow-y-auto">
+                      <div className="flex justify-between items-center p-2 bg-orange-50 rounded">
+                        <div>
+                          <div className="text-sm font-medium">JE-2024-004</div>
+                          <div className="text-xs text-gray-600">매입비용 - ABC업체</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm font-medium">₩5,200,000</div>
+                          <div className="text-xs text-orange-600">긴급</div>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between items-center p-2 bg-yellow-50 rounded">
+                        <div>
+                          <div className="text-sm font-medium">JE-2024-005</div>
+                          <div className="text-xs text-gray-600">외주비 - XYZ업체</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm font-medium">₩1,800,000</div>
+                          <div className="text-xs text-yellow-600">보통</div>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between items-center p-2 bg-green-50 rounded">
+                        <div>
+                          <div className="text-sm font-medium">JE-2024-006</div>
+                          <div className="text-xs text-gray-600">급여 - 정기지급</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm font-medium">₩25,000,000</div>
+                          <div className="text-xs text-green-600">낮음</div>
+                        </div>
+                      </div>
+                    </div>
+                    <Button variant="outline" className="w-full mt-3 bg-transparent" size="sm">
+                      전체 목록 보기
+                    </Button>
+                  </Card>
+
+                  <Card className="p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-medium text-gray-900">완료 항목</h4>
+                      <Badge className="bg-green-100 text-green-800">오늘 8건 완료</Badge>
+                    </div>
+                    <div className="space-y-2 max-h-48 overflow-y-auto">
+                      <div className="flex justify-between items-center p-2 bg-green-50 rounded">
+                        <div>
+                          <div className="text-sm font-medium">JE-2024-001</div>
+                          <div className="text-xs text-gray-600">매입비용 - 승인완료</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm font-medium">₩15,000,000</div>
+                          <div className="text-xs text-green-600">09:45</div>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between items-center p-2 bg-green-50 rounded">
+                        <div>
+                          <div className="text-sm font-medium">JE-2024-002</div>
+                          <div className="text-xs text-gray-600">컨설팅비 - 승인완료</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm font-medium">₩800,000</div>
+                          <div className="text-xs text-green-600">10:20</div>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between items-center p-2 bg-green-50 rounded">
+                        <div>
+                          <div className="text-sm font-medium">JE-2024-003</div>
+                          <div className="text-xs text-gray-600">급여 - 승인완료</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm font-medium">₩25,000,000</div>
+                          <div className="text-xs text-green-600">11:15</div>
+                        </div>
+                      </div>
+                    </div>
+                    <Button variant="outline" className="w-full mt-3 bg-transparent" size="sm">
+                      처리 이력 보기
+                    </Button>
+                  </Card>
+                </div>
+              </div>
+
+              {/* AI 분석 요약 */}
+              <Card className="p-4 bg-blue-50 border-blue-200">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+                    <BarChart3 className="h-3 w-3 text-blue-600" />
+                  </div>
+                  <h4 className="font-medium text-blue-900">AI 분석 요약</h4>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                  <div>
+                    <div className="text-blue-700 font-medium">처리 효율성</div>
+                    <div className="text-blue-800">평균 처리시간 12분 (전월 대비 -15%)</div>
+                  </div>
+                  <div>
+                    <div className="text-blue-700 font-medium">위험도 평가</div>
+                    <div className="text-blue-800">고위험 3.5%, 중위험 7.3% 탐지</div>
+                  </div>
+                  <div>
+                    <div className="text-blue-700 font-medium">정확도</div>
+                    <div className="text-blue-800">AI 분석 정확도 94% 달성</div>
+                  </div>
+                </div>
+              </Card>
             </CardContent>
           </Card>
         )}

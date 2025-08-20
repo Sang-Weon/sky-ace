@@ -11,6 +11,7 @@ import { Slider } from "@/components/ui/slider"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import {
   Activity,
   Zap,
@@ -26,6 +27,12 @@ import {
   Users,
   X,
   Download,
+  MessageCircle,
+  Send,
+  Bot,
+  TrendingUp,
+  Brain,
+  Database,
 } from "lucide-react"
 import Link from "next/link"
 
@@ -51,6 +58,68 @@ export default function AccountingSupervisorModule() {
     immediateAlert: true,
     dailyReport: false,
   })
+
+  const [chatMessages, setChatMessages] = useState([
+    {
+      id: 1,
+      type: "ai",
+      content:
+        "안녕하세요! 회계기준 및 사내 지침 변경사항을 분석하여 룰 파라미터 최적화를 도와드리겠습니다. 어떤 도움이 필요하신가요?",
+      timestamp: new Date(),
+    },
+  ])
+  const [chatInput, setChatInput] = useState("")
+  const [aiRecommendations, setAiRecommendations] = useState([
+    {
+      id: 1,
+      title: "매입비용 임계값 조정 권고",
+      description: "최근 3개월 트렌드 분석 결과, 현재 200% 기준을 180%로 조정하는 것을 권장합니다.",
+      confidence: 94,
+      impact: "높음",
+      source: "ML 트렌드 분석 + K-IFRS 개정사항",
+    },
+    {
+      id: 2,
+      title: "계정과목 매칭 정확도 개선",
+      description: "외부 LLM 연동을 통해 신규 거래처 패턴 학습으로 정확도 3.2% 향상 예상",
+      confidence: 87,
+      impact: "중간",
+      source: "RAG 기반 회계처리 지침 분석",
+    },
+    {
+      id: 3,
+      title: "월말 집중처리 패턴 최적화",
+      description: "과거 데이터 분석을 통해 월말 3일간 처리 집중도 기준을 75%로 조정 권고",
+      confidence: 91,
+      impact: "중간",
+      source: "통계적 트렌드 분석",
+    },
+  ])
+
+  const handleSendMessage = () => {
+    if (!chatInput.trim()) return
+
+    const newMessage = {
+      id: chatMessages.length + 1,
+      type: "user",
+      content: chatInput,
+      timestamp: new Date(),
+    }
+
+    setChatMessages((prev) => [...prev, newMessage])
+    setChatInput("")
+
+    // Simulate AI response
+    setTimeout(() => {
+      const aiResponse = {
+        id: chatMessages.length + 2,
+        type: "ai",
+        content: "분석 중입니다... 회계기준 변경사항과 과거 트렌드를 종합하여 최적의 파라미터를 제안드리겠습니다.",
+        timestamp: new Date(),
+      }
+      setChatMessages((prev) => [...prev, aiResponse])
+    }, 1000)
+  }
 
   return (
     <div className="min-h-screen bg-background p-6">
@@ -839,102 +908,205 @@ export default function AccountingSupervisorModule() {
       </div>
 
       <Dialog open={isParameterDialogOpen} onOpenChange={setIsParameterDialogOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-6xl max-h-[95vh] overflow-y-auto">
           <DialogHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
             <div>
               <DialogTitle className="text-xl font-bold">룰 파라미터 상세 설정</DialogTitle>
-              <p className="text-sm text-muted-foreground mt-1">매입비용 임계값의 세부 파라미터를 조정하세요</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                AI 권고사항을 참고하여 매입비용 임계값의 세부 파라미터를 조정하세요
+              </p>
             </div>
             <Button variant="ghost" size="sm" onClick={() => setIsParameterDialogOpen(false)} className="h-6 w-6 p-0">
               <X className="h-4 w-4" strokeWidth={2} />
             </Button>
           </DialogHeader>
 
-          <div className="space-y-6">
-            {/* 조건 설정 */}
-            <div className="space-y-3">
-              <h3 className="font-medium">조건 설정</h3>
-              <Input
-                value={parameterSettings.condition}
-                onChange={(e) => setParameterSettings((prev) => ({ ...prev, condition: e.target.value }))}
-                className="w-full"
-              />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-1 space-y-4">
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Brain className="h-5 w-5 text-blue-600" strokeWidth={2} />
+                    AI 권고사항
+                  </CardTitle>
+                  <CardDescription>ML 분석 및 회계기준 변경사항 반영</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {aiRecommendations.map((rec) => (
+                    <div key={rec.id} className="p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                      <div className="flex items-start justify-between mb-2">
+                        <h4 className="font-medium text-sm">{rec.title}</h4>
+                        <Badge variant={rec.impact === "높음" ? "destructive" : "secondary"} className="text-xs">
+                          {rec.impact}
+                        </Badge>
+                      </div>
+                      <p className="text-xs text-muted-foreground mb-2">{rec.description}</p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-blue-600">신뢰도: {rec.confidence}%</span>
+                        <Button size="sm" variant="outline" className="h-6 text-xs bg-transparent">
+                          적용
+                        </Button>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">{rec.source}</p>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <MessageCircle className="h-5 w-5 text-green-600" strokeWidth={2} />
+                    AI 컨설팅 챗봇
+                  </CardTitle>
+                  <CardDescription>회계기준 및 지침 변경사항 문의</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <ScrollArea className="h-48 w-full border rounded-lg p-3">
+                    <div className="space-y-3">
+                      {chatMessages.map((message) => (
+                        <div
+                          key={message.id}
+                          className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
+                        >
+                          <div
+                            className={`max-w-[80%] p-2 rounded-lg text-xs ${
+                              message.type === "user" ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-900"
+                            }`}
+                          >
+                            {message.type === "ai" && (
+                              <div className="flex items-center gap-1 mb-1">
+                                <Bot className="h-3 w-3" strokeWidth={2} />
+                                <span className="font-medium">AI 어시스턴트</span>
+                              </div>
+                            )}
+                            <p>{message.content}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="회계기준 변경사항이나 룰 설정에 대해 문의하세요..."
+                      value={chatInput}
+                      onChange={(e) => setChatInput(e.target.value)}
+                      onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+                      className="text-sm"
+                    />
+                    <Button size="sm" onClick={handleSendMessage}>
+                      <Send className="h-4 w-4" strokeWidth={2} />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
 
-            {/* 가중치 설정 */}
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <h3 className="font-medium">가중치 (%)</h3>
-                <span className="text-2xl font-bold text-blue-600">{parameterSettings.threshold[0]}%</span>
-              </div>
-              <Slider
-                value={parameterSettings.threshold}
-                onValueChange={(value) => setParameterSettings((prev) => ({ ...prev, threshold: value }))}
-                max={100}
-                min={0}
-                step={1}
-                className="w-full"
-              />
-            </div>
-
-            {/* 알림 설정 */}
-            <div className="space-y-4">
-              <h3 className="font-medium">알림 설정</h3>
-              <div className="flex items-center space-x-3">
-                <Switch
-                  checked={parameterSettings.immediateAlert}
-                  onCheckedChange={(checked) => setParameterSettings((prev) => ({ ...prev, immediateAlert: checked }))}
+            <div className="lg:col-span-2 space-y-6">
+              {/* 조건 설정 */}
+              <div className="space-y-3">
+                <h3 className="font-medium">조건 설정</h3>
+                <Input
+                  value={parameterSettings.condition}
+                  onChange={(e) => setParameterSettings((prev) => ({ ...prev, condition: e.target.value }))}
+                  className="w-full"
                 />
-                <span className="text-sm">이상징후 탐지 시 즉시 알림</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <Checkbox
-                  checked={parameterSettings.dailyReport}
-                  onCheckedChange={(checked) => setParameterSettings((prev) => ({ ...prev, dailyReport: checked }))}
+
+              {/* 가중치 설정 */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-medium">가중치 (%)</h3>
+                  <span className="text-2xl font-bold text-blue-600">{parameterSettings.threshold[0]}%</span>
+                </div>
+                <Slider
+                  value={parameterSettings.threshold}
+                  onValueChange={(value) => setParameterSettings((prev) => ({ ...prev, threshold: value }))}
+                  max={100}
+                  min={0}
+                  step={1}
+                  className="w-full"
                 />
-                <span className="text-sm">일일 요약 리포트 포함</span>
               </div>
-            </div>
 
-            {/* 성능 지표 */}
-            <div className="bg-blue-50 rounded-lg p-4">
-              <h3 className="font-medium text-blue-900 mb-4">성능 지표</h3>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="text-center">
-                  <div className="text-sm text-blue-700">정확도</div>
-                  <div className="text-2xl font-bold text-blue-900">92.3%</div>
+              {/* 알림 설정 */}
+              <div className="space-y-4">
+                <h3 className="font-medium">알림 설정</h3>
+                <div className="flex items-center space-x-3">
+                  <Switch
+                    checked={parameterSettings.immediateAlert}
+                    onCheckedChange={(checked) =>
+                      setParameterSettings((prev) => ({ ...prev, immediateAlert: checked }))
+                    }
+                  />
+                  <span className="text-sm">이상징후 탐지 시 즉시 알림</span>
                 </div>
-                <div className="text-center">
-                  <div className="text-sm text-blue-700">발생 빈도</div>
-                  <div className="text-2xl font-bold text-blue-900">15회/월</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-sm text-blue-700">오탐률</div>
-                  <div className="text-2xl font-bold text-blue-900">2.1%</div>
+                <div className="flex items-center space-x-3">
+                  <Checkbox
+                    checked={parameterSettings.dailyReport}
+                    onCheckedChange={(checked) => setParameterSettings((prev) => ({ ...prev, dailyReport: checked }))}
+                  />
+                  <span className="text-sm">일일 요약 리포트 포함</span>
                 </div>
               </div>
-            </div>
 
-            {/* 액션 버튼 */}
-            <div className="flex justify-between pt-4">
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm">
-                  <Download className="h-4 w-4 mr-1" strokeWidth={2} />룰 내보내기
-                </Button>
-                <Button variant="outline" size="sm">
-                  테스트 실행
-                </Button>
+              <div className="bg-blue-50 rounded-lg p-4">
+                <h3 className="font-medium text-blue-900 mb-4 flex items-center gap-2">
+                  <TrendingUp className="h-4 w-4" strokeWidth={2} />
+                  성능 지표 및 트렌드 분석
+                </h3>
+                <div className="grid grid-cols-3 gap-4 mb-4">
+                  <div className="text-center">
+                    <div className="text-sm text-blue-700">정확도</div>
+                    <div className="text-2xl font-bold text-blue-900">92.3%</div>
+                    <div className="text-xs text-green-600">+2.1% ↗</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-sm text-blue-700">발생 빈도</div>
+                    <div className="text-2xl font-bold text-blue-900">15회/월</div>
+                    <div className="text-xs text-red-600">+3회 ↗</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-sm text-blue-700">오탐률</div>
+                    <div className="text-2xl font-bold text-blue-900">2.1%</div>
+                    <div className="text-xs text-green-600">-0.5% ↘</div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-lg p-3 mb-3">
+                  <h4 className="font-medium text-sm mb-2 flex items-center gap-2">
+                    <Database className="h-4 w-4 text-purple-600" strokeWidth={2} />
+                    ML 기반 인사이트
+                  </h4>
+                  <ul className="text-xs text-gray-700 space-y-1">
+                    <li>• 최근 3개월 매입비용 패턴 변화 감지 (신뢰도: 94%)</li>
+                    <li>• K-IFRS 1116호 개정으로 인한 리스 회계처리 기준 변경 반영 필요</li>
+                    <li>• 외부 LLM 연동 시 정확도 3.2% 향상 예상</li>
+                  </ul>
+                </div>
               </div>
-              <div className="flex gap-2">
-                <Button variant="outline" onClick={() => setIsParameterDialogOpen(false)}>
-                  취소
-                </Button>
-                <Button
-                  className="bg-teal-600 hover:bg-teal-700 text-white"
-                  onClick={() => setIsParameterDialogOpen(false)}
-                >
-                  저장 및 적용
-                </Button>
+
+              {/* 액션 버튼 */}
+              <div className="flex justify-between pt-4">
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm">
+                    <Download className="h-4 w-4 mr-1" strokeWidth={2} />룰 내보내기
+                  </Button>
+                  <Button variant="outline" size="sm">
+                    테스트 실행
+                  </Button>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="outline" onClick={() => setIsParameterDialogOpen(false)}>
+                    취소
+                  </Button>
+                  <Button
+                    className="bg-teal-600 hover:bg-teal-700 text-white"
+                    onClick={() => setIsParameterDialogOpen(false)}
+                  >
+                    저장 및 적용
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
