@@ -1,0 +1,427 @@
+"use client"
+
+import { useState } from "react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import {
+  AlertTriangle,
+  Clock,
+  CheckCircle,
+  TrendingUp,
+  XCircle,
+  BarChart3,
+  Eye,
+  Home,
+  ChevronRight,
+  ChevronDown,
+  User,
+  FileText,
+  Users,
+  Settings,
+  X,
+} from "lucide-react"
+import Link from "next/link"
+
+export default function FinancialManagementModule() {
+  const [activeTab, setActiveTab] = useState("priority")
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [selectedReview, setSelectedReview] = useState<any>(null)
+
+  const stats = [
+    { label: "긴급 검토", value: "1", color: "border-l-red-500", icon: AlertTriangle, iconColor: "text-red-500" },
+    { label: "검토 대기", value: "12", color: "border-l-orange-500", icon: Clock, iconColor: "text-orange-500" },
+    { label: "오늘 처리", value: "8", color: "border-l-green-500", icon: CheckCircle, iconColor: "text-green-500" },
+    { label: "총 승인", value: "45", color: "border-l-blue-500", icon: TrendingUp, iconColor: "text-blue-500" },
+    { label: "반려", value: "3", color: "border-l-gray-500", icon: XCircle, iconColor: "text-gray-500" },
+    {
+      label: "평균 처리시간",
+      value: "12분",
+      color: "border-l-purple-500",
+      icon: BarChart3,
+      iconColor: "text-purple-500",
+    },
+  ]
+
+  const pendingReviews = [
+    {
+      id: "JE-2024-001",
+      type: "긴급",
+      typeColor: "bg-red-100 text-red-800",
+      description: "매입비용 급액 대비 300% 증가",
+      account: "4110 - 매입비용",
+      amount: "15,000,000원",
+      submitter: "김실무",
+      time: "2024-01-15 09:30",
+      aiConfidence: 94,
+      riskLevel: 25,
+    },
+    {
+      id: "JE-2024-002",
+      type: "보통",
+      typeColor: "bg-orange-100 text-orange-800",
+      description: "계정과목 패턴 이상 - 통상적이지 않은 계정 조합",
+      account: "6210 - 컨설팅",
+      amount: "800,000원",
+      submitter: "이직원",
+      time: "2024-01-15 10:15",
+      aiConfidence: 78,
+      riskLevel: 65,
+    },
+    {
+      id: "JE-2024-003",
+      type: "낮음",
+      typeColor: "bg-green-100 text-green-800",
+      description: "월말 집중 전표 처리 패턴",
+      account: "5110 - 급여",
+      amount: "25,000,000원",
+      submitter: "박직원",
+      time: "2024-01-15 11:00",
+      aiConfidence: 92,
+      riskLevel: 8,
+    },
+  ]
+
+  const handleDetailedReview = (review: any) => {
+    setSelectedReview(review)
+    setIsDialogOpen(true)
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2">
+            <Link href="/">
+              <Button variant="outline" size="sm" className="flex items-center gap-2 bg-transparent">
+                <Home className="h-4 w-4" />
+                <span>대시보드</span>
+              </Button>
+            </Link>
+            <ChevronRight className="h-4 w-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">재무회계 담당자</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Badge variant="secondary" className="bg-green-100 text-green-800">
+              재무회계 담당자
+            </Badge>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="flex items-center gap-2 bg-transparent">
+                  <User className="h-4 w-4" />
+                  <span>역할 전환</span>
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuItem asChild>
+                  <Link href="/journal-entry" className="flex items-center gap-2">
+                    <FileText className="h-4 w-4" />
+                    <span>전표처리 실무자</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/financial-management" className="flex items-center gap-2">
+                    <Users className="h-4 w-4" />
+                    <span>재무회계 담당자</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/accounting-supervisor" className="flex items-center gap-2">
+                    <Settings className="h-4 w-4" />
+                    <span>회계 책임자</span>
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">전표 검토 및 승인 관리</h1>
+          <p className="text-gray-600">AI 이상징후 탐지 결과를 검토하고 전표 승인을 관리하세요</p>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+          {stats.map((stat, index) => {
+            const IconComponent = stat.icon
+            return (
+              <Card key={index} className={`${stat.color} border-l-4`}>
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <IconComponent className={`h-4 w-4 ${stat.iconColor}`} />
+                      </div>
+                      <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
+                      <div className="text-sm text-gray-600">{stat.label}</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )
+          })}
+        </div>
+
+        <div className="flex gap-8 mb-6">
+          <button
+            onClick={() => setActiveTab("priority")}
+            className={`flex items-center gap-2 pb-2 border-b-2 transition-colors ${
+              activeTab === "priority"
+                ? "border-blue-500 text-blue-600"
+                : "border-transparent text-gray-600 hover:text-gray-900"
+            }`}
+          >
+            <Eye className="h-4 w-4" />
+            우선순위 검토
+          </button>
+          <button
+            onClick={() => setActiveTab("team")}
+            className={`flex items-center gap-2 pb-2 border-b-2 transition-colors ${
+              activeTab === "team"
+                ? "border-blue-500 text-blue-600"
+                : "border-transparent text-gray-600 hover:text-gray-900"
+            }`}
+          >
+            <Home className="h-4 w-4" />팀 현황
+          </button>
+          <button
+            onClick={() => setActiveTab("reports")}
+            className={`flex items-center gap-2 pb-2 border-b-2 transition-colors ${
+              activeTab === "reports"
+                ? "border-blue-500 text-blue-600"
+                : "border-transparent text-gray-600 hover:text-gray-900"
+            }`}
+          >
+            <BarChart3 className="h-4 w-4" />
+            분석 리포트
+          </button>
+        </div>
+
+        {activeTab === "priority" && (
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                <CardTitle>AI 이상징후 검토 대기열</CardTitle>
+                <Badge variant="secondary">3건 대기</Badge>
+              </div>
+              <CardDescription>우선순위별로 정렬된 검토 대상 전표를 확인하세요</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {pendingReviews.map((review) => (
+                <Card key={review.id} className="border border-gray-200">
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="text-lg font-semibold text-gray-900">{review.id}</div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-1 h-1 bg-green-500 rounded-full"></div>
+                          <span className="text-sm text-green-600">AI {review.aiConfidence}%</span>
+                        </div>
+                        <Badge className={review.typeColor}>{review.type}</Badge>
+                        <span className="text-sm text-gray-600">위험도 {review.riskLevel}%</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button variant="outline" size="sm" onClick={() => handleDetailedReview(review)}>
+                          <Eye className="h-4 w-4 mr-1" />
+                          상세 검토
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="text-red-600 border-red-200 hover:bg-red-50 bg-transparent"
+                        >
+                          반려
+                        </Button>
+                        <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                          승인
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="text-gray-900 font-medium mb-2">{review.description}</div>
+                    <div className="text-gray-600 mb-3">
+                      {review.account} • {review.amount}
+                    </div>
+                    <div className="flex items-center justify-between text-sm text-gray-500">
+                      <span>
+                        제출자: {review.submitter} • {review.time}
+                      </span>
+                    </div>
+
+                    <div className="mt-4">
+                      <div className="flex items-center gap-2 text-sm text-gray-600 mb-1">
+                        <span>AI 신뢰도:</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          className="bg-teal-600 h-2 rounded-full transition-all duration-300"
+                          style={{ width: `${review.aiConfidence}%` }}
+                        ></div>
+                      </div>
+                      <div className="text-right text-sm text-gray-600 mt-1">{review.aiConfidence}%</div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </CardContent>
+          </Card>
+        )}
+
+        {activeTab === "team" && (
+          <Card>
+            <CardHeader>
+              <CardTitle>팀 현황</CardTitle>
+              <CardDescription>팀원별 처리 현황을 확인하세요</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center py-8 text-gray-500">팀 현황 데이터를 불러오는 중...</div>
+            </CardContent>
+          </Card>
+        )}
+
+        {activeTab === "reports" && (
+          <Card>
+            <CardHeader>
+              <CardTitle>분석 리포트</CardTitle>
+              <CardDescription>AI 분석 결과 및 처리 통계를 확인하세요</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center py-8 text-gray-500">분석 리포트를 생성하는 중...</div>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="w-[95vw] max-h-[80vh] overflow-y-auto">
+          <DialogHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                <FileText className="h-4 w-4 text-blue-600" />
+              </div>
+              <div>
+                <DialogTitle className="text-xl font-bold">종합 위험 분석 - {selectedReview?.id}</DialogTitle>
+                <p className="text-sm text-gray-600 mt-1">AI 분석 결과와 위험 요소를 종합적으로 검토하세요</p>
+              </div>
+            </div>
+            <Button variant="ghost" size="sm" onClick={() => setIsDialogOpen(false)} className="h-8 w-8 p-0">
+              <X className="h-4 w-4" />
+            </Button>
+          </DialogHeader>
+
+          <div className="grid grid-cols-3 gap-6">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-4">
+                <FileText className="h-5 w-5 text-gray-600" />
+                <h3 className="font-semibold text-gray-900">전표 정보</h3>
+              </div>
+
+              <Card className="p-4">
+                <div className="text-sm text-gray-600 mb-1">계정과목</div>
+                <div className="font-semibold text-gray-900">{selectedReview?.account}</div>
+              </Card>
+
+              <Card className="p-4">
+                <div className="text-sm text-gray-600 mb-1">거래 금액</div>
+                <div className="font-semibold text-gray-900">{selectedReview?.amount}</div>
+              </Card>
+
+              <Card className="p-4">
+                <div className="text-sm text-gray-600 mb-1">제출자</div>
+                <div className="font-semibold text-gray-900">{selectedReview?.submitter}</div>
+              </Card>
+
+              <Card className="p-4">
+                <div className="text-sm text-gray-600 mb-1">제출 시간</div>
+                <div className="font-semibold text-gray-900">{selectedReview?.time}</div>
+              </Card>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-5 h-5 bg-blue-100 rounded flex items-center justify-center">
+                  <BarChart3 className="h-3 w-3 text-blue-600" />
+                </div>
+                <h3 className="font-semibold text-gray-900">AI 위험 분석</h3>
+              </div>
+
+              <Card className="p-4 bg-green-50 border-green-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <CheckCircle className="h-4 w-4 text-green-600" />
+                  <span className="text-sm font-medium text-green-800">하이브리드 AI</span>
+                  <Badge className="bg-teal-800 text-white">{selectedReview?.aiConfidence}%</Badge>
+                </div>
+                <div className="w-full bg-green-200 rounded-full h-2 mb-3">
+                  <div
+                    className="bg-teal-600 h-2 rounded-full"
+                    style={{ width: `${selectedReview?.aiConfidence}%` }}
+                  ></div>
+                </div>
+                <div className="text-sm text-green-700 mb-1">분석 근거:</div>
+                <div className="text-sm text-green-800 font-medium">긴급 검토 필요 - 계약서 및 승인서류 확인 권장</div>
+              </Card>
+
+              <Card className="p-4">
+                <div className="text-sm text-gray-600 mb-2">위험 요소</div>
+                <div className="space-y-2">
+                  <Badge variant="outline" className="mr-2">
+                    금액 이상
+                  </Badge>
+                  <Badge variant="outline" className="mr-2">
+                    거래 빈도 이상
+                  </Badge>
+                  <Badge variant="outline">신규 거래처</Badge>
+                </div>
+              </Card>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-4">
+                <AlertTriangle className="h-5 w-5 text-orange-500" />
+                <h3 className="font-semibold text-gray-900">상세 근거</h3>
+              </div>
+
+              <Card className="p-4">
+                <div className="text-sm text-gray-600 mb-1">과거 평균</div>
+                <div className="font-semibold text-gray-900">4,200,000원</div>
+              </Card>
+
+              <Card className="p-4">
+                <div className="text-sm text-gray-600 mb-1">거래처</div>
+                <div className="font-semibold text-gray-900">ABC 공급업체</div>
+              </Card>
+
+              <Card className="p-4 bg-red-50 border-red-200">
+                <div className="text-sm text-red-600 mb-1">특이 패턴</div>
+                <div className="text-sm text-red-800 font-medium">동일 업체 3회 연속 대량 거래</div>
+              </Card>
+
+              <Card className="p-4 bg-blue-50 border-blue-200">
+                <div className="text-sm text-blue-600 mb-1">AI 권장사항</div>
+                <div className="text-sm text-blue-800 font-medium">긴급 검토 필요 - 계약서 및 승인서류 확인 권장</div>
+              </Card>
+            </div>
+          </div>
+
+          <div className="flex gap-3 pt-6 border-t">
+            <Button variant="outline" className="flex-1 bg-transparent">
+              실무자에게 문의
+            </Button>
+            <Button variant="outline" className="flex-1 bg-transparent">
+              추가 증빙 요청
+            </Button>
+            <Button variant="destructive" className="flex-1">
+              반려 및 수정 요청
+            </Button>
+            <Button className="flex-1 bg-teal-600 hover:bg-teal-700">승인 및 ERP 반영</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  )
+}
