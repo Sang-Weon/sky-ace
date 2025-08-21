@@ -693,7 +693,7 @@ export default function AccountingSupervisorModule() {
                   <Zap className="h-5 w-5" strokeWidth={2} />
                   외부 AI 에이전트 연동
                 </CardTitle>
-                <CardDescription>API 및 MCP를 통한 외부 AI 모델 통합 관리</CardDescription>
+                <CardDescription>API 및 Model Context Protocol을 통한 외부 AI 모델 통합 관리</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -733,7 +733,7 @@ export default function AccountingSupervisorModule() {
                         <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-2">
                           <Activity className="h-6 w-6 text-purple-600" strokeWidth={2} />
                         </div>
-                        <h4 className="font-medium">Custom MCP Agent</h4>
+                        <h4 className="font-medium">Custom Model Context Protocol Agent</h4>
                         <p className="text-sm text-muted-foreground">맞춤형 모델 연동</p>
                       </div>
                       <Button variant="outline" size="sm" className="w-full bg-transparent">
@@ -759,7 +759,10 @@ export default function AccountingSupervisorModule() {
                 </div>
 
                 <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-                  <h4 className="font-medium text-blue-900 mb-2">하이브리드 AI 아키텍처</h4>
+                  <h4 className="font-medium text-blue-900 mb-4 flex items-center gap-2">
+                    <TrendingUp className="h-4 w-4" strokeWidth={2} />
+                    성능 지표 및 트렌드 분석
+                  </h4>
                   <p className="text-sm text-blue-800 mb-3">
                     통계적 기법, 머신러닝, 외부 AI 에이전트를 조합하여 최적의 성능을 달성합니다.
                   </p>
