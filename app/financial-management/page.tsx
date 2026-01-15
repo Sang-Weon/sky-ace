@@ -145,7 +145,7 @@ export default function FinancialManagementModule() {
           <p className="text-gray-600">AI 이상징후 탐지 결과를 검토하고 전표 승인을 관리하세요</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
           {stats.map((stat, index) => {
             const IconComponent = stat.icon
             return (
@@ -166,7 +166,7 @@ export default function FinancialManagementModule() {
           })}
         </div>
 
-        <div className="flex gap-8 mb-6">
+        <div className="flex gap-4 sm:gap-8 mb-6 overflow-x-auto pb-2">
           <button
             onClick={() => setActiveTab("priority")}
             className={`flex items-center gap-2 pb-2 border-b-2 transition-colors ${
@@ -215,7 +215,7 @@ export default function FinancialManagementModule() {
               {pendingReviews.map((review) => (
                 <Card key={review.id} className="border border-gray-200">
                   <CardContent className="p-6">
-                    <div className="flex items-start justify-between mb-4">
+                    <div className="flex flex-col sm:flex-row items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
                         <div className="text-lg font-semibold text-gray-900">{review.id}</div>
                         <div className="flex items-center gap-2">
@@ -225,8 +225,13 @@ export default function FinancialManagementModule() {
                         <Badge className={review.typeColor}>{review.type}</Badge>
                         <span className="text-sm text-gray-600">위험도 {review.riskLevel}%</span>
                       </div>
-                      <div className="flex gap-2">
-                        <Button variant="outline" size="sm" onClick={() => handleDetailedReview(review)}>
+                      <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleDetailedReview(review)}
+                          className="flex-1 sm:flex-none"
+                        >
                           <Eye className="h-4 w-4 mr-1" />
                           상세 검토
                         </Button>
@@ -449,7 +454,7 @@ export default function FinancialManagementModule() {
                   비경상적 분개처리 분석
                 </h3>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   <Card className="p-4 bg-green-50 border-green-200">
                     <div className="flex items-center gap-2 mb-2">
                       <CheckCircle className="h-4 w-4 text-green-600" />
@@ -607,7 +612,7 @@ export default function FinancialManagementModule() {
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="w-[95vw] max-h-[80vh] overflow-y-auto">
+        <DialogContent className="w-[95vw] max-w-7xl h-auto max-h-[80vh] overflow-y-auto">
           <DialogHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">

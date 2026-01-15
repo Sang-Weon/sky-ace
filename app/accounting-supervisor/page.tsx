@@ -177,7 +177,8 @@ export default function AccountingSupervisorModule() {
           <p className="text-muted-foreground">분개를 예전과 AI 학습 파라미터를 관리하고 시스템 성능을 최적화하세요</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+        {/* Made stats grid responsive */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-8">
           <Card className="bg-green-50 border-l-4 border-l-green-500">
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-2">
@@ -230,31 +231,32 @@ export default function AccountingSupervisorModule() {
         </div>
 
         <Tabs defaultValue="integrated" className="space-y-6">
-          <TabsList className="w-full flex gap-4 mb-8 h-auto bg-transparent p-0">
+          {/* Made tabs responsive with scroll on mobile */}
+          <TabsList className="w-full flex gap-2 sm:gap-4 mb-8 h-auto bg-transparent p-0 overflow-x-auto">
             <TabsTrigger
               value="integrated"
-              className="flex-1 h-16 flex flex-col items-center gap-2 bg-transparent border border-input hover:bg-accent hover:text-accent-foreground data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 data-[state=active]:border-blue-300"
+              className="flex-1 min-w-[100px] h-16 flex flex-col items-center gap-2 bg-transparent border border-input hover:bg-accent hover:text-accent-foreground data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 data-[state=active]:border-blue-300"
             >
               <Settings className="h-6 w-6" strokeWidth={2} />
               <span>통합 관리</span>
             </TabsTrigger>
             <TabsTrigger
               value="ai-model"
-              className="flex-1 h-16 flex flex-col items-center gap-2 bg-transparent border border-input hover:bg-accent hover:text-accent-foreground data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 data-[state=active]:border-blue-300"
+              className="flex-1 min-w-[100px] h-16 flex flex-col items-center gap-2 bg-transparent border border-input hover:bg-accent hover:text-accent-foreground data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 data-[state=active]:border-blue-300"
             >
               <Zap className="h-6 w-6" strokeWidth={2} />
               <span>AI 모델 관리</span>
             </TabsTrigger>
             <TabsTrigger
               value="performance"
-              className="flex-1 h-16 flex flex-col items-center gap-2 bg-transparent border border-input hover:bg-accent hover:text-accent-foreground data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 data-[state=active]:border-blue-300"
+              className="flex-1 min-w-[100px] h-16 flex flex-col items-center gap-2 bg-transparent border border-input hover:bg-accent hover:text-accent-foreground data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 data-[state=active]:border-blue-300"
             >
               <Activity className="h-6 w-6" strokeWidth={2} />
               <span>성능 분석</span>
             </TabsTrigger>
             <TabsTrigger
               value="system"
-              className="flex-1 h-16 flex flex-col items-center gap-2 bg-transparent border border-input hover:bg-accent hover:text-accent-foreground data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 data-[state=active]:border-blue-300"
+              className="flex-1 min-w-[100px] h-16 flex flex-col items-center gap-2 bg-transparent border border-input hover:bg-accent hover:text-accent-foreground data-[state=active]:bg-blue-100 data-[state=active]:text-blue-700 data-[state=active]:border-blue-300"
             >
               <Settings className="h-6 w-6" strokeWidth={2} />
               <span>시스템 설정</span>
@@ -274,8 +276,9 @@ export default function AccountingSupervisorModule() {
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center gap-4">
+                {/* Made rule settings responsive with stacked layout on mobile */}
+                <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between p-4 border rounded-lg gap-4">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full lg:w-auto">
                     <Switch
                       checked={anomalyDetection.salaryAnomaly}
                       onCheckedChange={(checked) =>
@@ -291,20 +294,22 @@ export default function AccountingSupervisorModule() {
                       활성
                     </Badge>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">정확도</div>
-                      <div className="font-medium">92.3%</div>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full lg:w-auto">
+                    <div className="flex gap-4 sm:gap-6">
+                      <div className="text-left sm:text-right">
+                        <div className="text-sm text-muted-foreground">정확도</div>
+                        <div className="font-medium">92.3%</div>
+                      </div>
+                      <div className="text-left sm:text-right">
+                        <div className="text-sm text-muted-foreground">기준치</div>
+                        <div className="font-medium">85%</div>
+                      </div>
+                      <div className="text-left sm:text-right">
+                        <div className="text-sm text-muted-foreground">발생 횟수</div>
+                        <div className="font-medium">15회</div>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">기준치</div>
-                      <div className="font-medium">85%</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">발생 횟수</div>
-                      <div className="font-medium">15회</div>
-                    </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2 w-full sm:w-auto">
                       <Button variant="outline" size="sm" onClick={() => setIsParameterDialogOpen(true)}>
                         <Settings className="h-4 w-4 mr-1" strokeWidth={2} />
                         상세 설정
@@ -316,8 +321,9 @@ export default function AccountingSupervisorModule() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center gap-4">
+                {/* Made rule settings responsive with stacked layout on mobile */}
+                <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between p-4 border rounded-lg gap-4">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full lg:w-auto">
                     <Switch
                       checked={anomalyDetection.expenseAnomaly}
                       onCheckedChange={(checked) =>
@@ -333,20 +339,22 @@ export default function AccountingSupervisorModule() {
                       활성
                     </Badge>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">정확도</div>
-                      <div className="font-medium">89.7%</div>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full lg:w-auto">
+                    <div className="flex gap-4 sm:gap-6">
+                      <div className="text-left sm:text-right">
+                        <div className="text-sm text-muted-foreground">정확도</div>
+                        <div className="font-medium">89.7%</div>
+                      </div>
+                      <div className="text-left sm:text-right">
+                        <div className="text-sm text-muted-foreground">기준치</div>
+                        <div className="font-medium">75%</div>
+                      </div>
+                      <div className="text-left sm:text-right">
+                        <div className="text-sm text-muted-foreground">발생 횟수</div>
+                        <div className="font-medium">8회</div>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">기준치</div>
-                      <div className="font-medium">75%</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">발생 횟수</div>
-                      <div className="font-medium">8회</div>
-                    </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2 w-full sm:w-auto">
                       <Button variant="outline" size="sm">
                         <Settings className="h-4 w-4 mr-1" strokeWidth={2} />
                         상세 설정
@@ -376,8 +384,9 @@ export default function AccountingSupervisorModule() {
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center gap-4">
+                {/* Made rule settings responsive with stacked layout on mobile */}
+                <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between p-4 border rounded-lg gap-4">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full lg:w-auto">
                     <Switch
                       checked={patternDetection.accountPattern}
                       onCheckedChange={(checked) =>
@@ -393,20 +402,22 @@ export default function AccountingSupervisorModule() {
                       활성
                     </Badge>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">정확도</div>
-                      <div className="font-medium">88.7%</div>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full lg:w-auto">
+                    <div className="flex gap-4 sm:gap-6">
+                      <div className="text-left sm:text-right">
+                        <div className="text-sm text-muted-foreground">정확도</div>
+                        <div className="font-medium">88.7%</div>
+                      </div>
+                      <div className="text-left sm:text-right">
+                        <div className="text-sm text-muted-foreground">기준치</div>
+                        <div className="font-medium">90%</div>
+                      </div>
+                      <div className="text-left sm:text-right">
+                        <div className="text-sm text-muted-foreground">발생 횟수</div>
+                        <div className="font-medium">23회</div>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">기준치</div>
-                      <div className="font-medium">90%</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">발생 횟수</div>
-                      <div className="font-medium">23회</div>
-                    </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2 w-full sm:w-auto">
                       <Button variant="outline" size="sm">
                         <Settings className="h-4 w-4 mr-1" strokeWidth={2} />
                         상세 설정
@@ -418,8 +429,9 @@ export default function AccountingSupervisorModule() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center gap-4">
+                {/* Made rule settings responsive with stacked layout on mobile */}
+                <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between p-4 border rounded-lg gap-4">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full lg:w-auto">
                     <Switch
                       checked={patternDetection.transactionTiming}
                       onCheckedChange={(checked) =>
@@ -435,20 +447,22 @@ export default function AccountingSupervisorModule() {
                       주의필요
                     </Badge>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">정확도</div>
-                      <div className="font-medium">91.2%</div>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full lg:w-auto">
+                    <div className="flex gap-4 sm:gap-6">
+                      <div className="text-left sm:text-right">
+                        <div className="text-sm text-muted-foreground">정확도</div>
+                        <div className="font-medium">91.2%</div>
+                      </div>
+                      <div className="text-left sm:text-right">
+                        <div className="text-sm text-muted-foreground">기준치</div>
+                        <div className="font-medium">80%</div>
+                      </div>
+                      <div className="text-left sm:text-right">
+                        <div className="text-sm text-muted-foreground">발생 횟수</div>
+                        <div className="font-medium">12회</div>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">기준치</div>
-                      <div className="font-medium">80%</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">발생 횟수</div>
-                      <div className="font-medium">12회</div>
-                    </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2 w-full sm:w-auto">
                       <Button variant="outline" size="sm">
                         <Settings className="h-4 w-4 mr-1" strokeWidth={2} />
                         상세 설정
@@ -478,8 +492,9 @@ export default function AccountingSupervisorModule() {
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center gap-4">
+                {/* Made rule settings responsive with stacked layout on mobile */}
+                <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between p-4 border rounded-lg gap-4">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full lg:w-auto">
                     <Switch
                       checked={transactionAnalysis.monthlyAnalysis}
                       onCheckedChange={(checked) =>
@@ -495,20 +510,22 @@ export default function AccountingSupervisorModule() {
                       주의필요
                     </Badge>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">정확도</div>
-                      <div className="font-medium">76.4%</div>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full lg:w-auto">
+                    <div className="flex gap-4 sm:gap-6">
+                      <div className="text-left sm:text-right">
+                        <div className="text-sm text-muted-foreground">정확도</div>
+                        <div className="font-medium">76.4%</div>
+                      </div>
+                      <div className="text-left sm:text-right">
+                        <div className="text-sm text-muted-foreground">기준치</div>
+                        <div className="font-medium">60%</div>
+                      </div>
+                      <div className="text-left sm:text-right">
+                        <div className="text-sm text-muted-foreground">발생 횟수</div>
+                        <div className="font-medium">5회</div>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">기준치</div>
-                      <div className="font-medium">60%</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">발생 횟수</div>
-                      <div className="font-medium">5회</div>
-                    </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2 w-full sm:w-auto">
                       <Button variant="outline" size="sm">
                         <Settings className="h-4 w-4 mr-1" strokeWidth={2} />
                         상세 설정
@@ -695,8 +712,9 @@ export default function AccountingSupervisorModule() {
                 </CardTitle>
                 <CardDescription>API 및 Model Context Protocol을 통한 외부 AI 모델 통합 관리</CardDescription>
               </CardHeader>
+              {/* Made AI model cards responsive */}
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   <Card className="border-dashed border-2 border-gray-300">
                     <CardContent className="p-4 text-center">
                       <div className="mb-2">
@@ -910,8 +928,9 @@ export default function AccountingSupervisorModule() {
         </Tabs>
       </div>
 
+      {/* Made parameter dialog responsive */}
       <Dialog open={isParameterDialogOpen} onOpenChange={setIsParameterDialogOpen}>
-        <DialogContent className="max-w-6xl max-h-[95vh] overflow-y-auto">
+        <DialogContent className="w-[95vw] max-w-6xl h-auto max-h-[90vh] overflow-y-auto">
           <DialogHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
             <div>
               <DialogTitle className="text-xl font-bold">룰 파라미터 상세 설정</DialogTitle>
@@ -924,7 +943,8 @@ export default function AccountingSupervisorModule() {
             </Button>
           </DialogHeader>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Made parameter dialog responsive */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="lg:col-span-1 space-y-4">
               <Card>
                 <CardHeader className="pb-3">
@@ -1005,7 +1025,7 @@ export default function AccountingSupervisorModule() {
               </Card>
             </div>
 
-            <div className="lg:col-span-2 space-y-6">
+            <div className="lg:col-span-1 space-y-6">
               {/* 조건 설정 */}
               <div className="space-y-3">
                 <h3 className="font-medium">조건 설정</h3>

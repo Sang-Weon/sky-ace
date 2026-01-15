@@ -74,7 +74,7 @@ export default function Dashboard() {
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {/* Journal Entry Processor */}
           <Card className="bg-blue-50 border-blue-200 hover:shadow-lg transition-shadow">
             <CardHeader className="pb-4">
@@ -321,7 +321,7 @@ export default function Dashboard() {
 
         <Card className="bg-white border-gray-200">
           <CardContent className="p-6">
-            <div className="flex items-center justify-center gap-8">
+            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                 {showAITooltips ? (

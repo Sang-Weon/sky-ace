@@ -26,7 +26,6 @@ import {
   Shield,
   Clock,
   TrendingUp,
-  AlertCircle,
   Check,
   X,
   Edit,
@@ -152,7 +151,7 @@ export default function JournalEntryModule() {
                   <CardDescription>실시간 증빙서류 자동 수집</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <AITooltip content="국세청 홈택스 API를 통해 세금계산서, 현금영수증 등을 실시간으로 수집합니다. 블록체인 기반 무결성 검증을 통해 위변조를 방지합니다.">
                       <div className="flex items-center justify-between p-3 border rounded-lg">
                         <div className="flex items-center gap-2">
@@ -233,7 +232,7 @@ export default function JournalEntryModule() {
                     >
                       <Card className="border border-gray-200">
                         <CardContent className="pt-4">
-                          <div className="flex items-start justify-between mb-4">
+                          <div className="flex flex-col sm:flex-row items-start justify-between mb-4">
                             <div className="flex items-center gap-3">
                               {doc.type === "세금계산서" ? (
                                 <Mail className="h-8 w-8 text-blue-600" strokeWidth={2} />
@@ -311,7 +310,7 @@ export default function JournalEntryModule() {
                         >
                           <Card className="border-2 border-blue-200">
                             <CardContent className="pt-4">
-                              <div className="grid grid-cols-2 gap-4 mb-4">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                                 <div>
                                   <Label className="text-sm font-medium">차변</Label>
                                   <div className="flex items-center gap-2 mt-1">
@@ -340,7 +339,7 @@ export default function JournalEntryModule() {
                                 </div>
                               </div>
 
-                              <div className="grid grid-cols-2 gap-4 mb-4">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                                 <div>
                                   <Label className="text-sm font-medium">금액</Label>
                                   <Input value={entry.amount.toLocaleString()} readOnly className="bg-gray-50 mt-1" />
@@ -402,7 +401,7 @@ export default function JournalEntryModule() {
                     </TabsContent>
 
                     <TabsContent value="manual-entry" className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <Label>차변 계정</Label>
                           <AITooltip content="입력하는 동안 AI가 실시간으로 계정과목을 추천하고 자동완성을 제공합니다.">
@@ -426,7 +425,7 @@ export default function JournalEntryModule() {
                           </AITooltip>
                         </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <Label>금액</Label>
                           <AITooltip content="금액 입력 시 AI가 이상 거래를 감지하고 경고를 표시합니다.">
@@ -477,59 +476,29 @@ export default function JournalEntryModule() {
                   <CardDescription>AI가 분석한 최적 ERP 연동 방안</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
-                    {sapModules.map((module, index) => (
-                      <AITooltip
-                        key={index}
-                        content={`AI가 전표 유형과 계정과목을 분석하여 ${module.module} 모듈의 ${module.tcode} T-Code를 추천했습니다. 신뢰도 ${module.confidence}%로 분석되었습니다.`}
-                      >
-                        <Card
-                          className={`border-2 ${module.recommended ? "border-green-200 bg-green-50" : "border-gray-200"}`}
-                        >
-                          <CardContent className="pt-4">
-                            <div className="flex items-start justify-between mb-3">
-                              <div>
-                                <h3 className="font-semibold text-lg">{module.module}</h3>
-                                <p className="text-sm text-gray-600">{module.description}</p>
-                                <div className="flex items-center gap-2 mt-2">
-                                  <Badge variant="secondary" className="bg-blue-100 text-blue-800">
-                                    T-Code: {module.tcode}
-                                  </Badge>
-                                  <Badge
-                                    variant="secondary"
-                                    className={`${module.confidence >= 95 ? "bg-green-100 text-green-800" : "bg-amber-100 text-amber-800"}`}
-                                  >
-                                    AI {module.confidence}%
-                                  </Badge>
-                                </div>
-                              </div>
-                              {module.recommended && (
-                                <Badge variant="secondary" className="bg-green-100 text-green-800">
-                                  <Check className="h-3 w-3 mr-1" strokeWidth={2} />
-                                  AI 권고
-                                </Badge>
-                              )}
-                            </div>
-
-                            <AITooltip content="AI가 회사 설정과 전표 정보를 기반으로 SAP 매핑 정보를 자동 생성했습니다. 참조번호는 중복 방지를 위해 타임스탬프 기반으로 생성됩니다.">
-                              <div className="bg-white p-3 rounded border mb-3">
-                                <h4 className="text-sm font-medium mb-2">매핑 정보</h4>
-                                <div className="text-xs space-y-1">
-                                  <div>• 회사코드: 1000 (본사)</div>
-                                  <div>• 전기일: {new Date().toLocaleDateString()}</div>
-                                  <div>• 통화: KRW</div>
-                                  <div>• 참조번호: JE-{Date.now()}</div>
-                                </div>
-                              </div>
-                            </AITooltip>
-
-                            <div className="flex items-center justify-between">
-                              <AITooltip content="ERP 시스템 반영 전 담당자의 최종 승인이 필요합니다. 이는 시스템 안정성과 데이터 무결성을 보장하기 위한 안전장치입니다.">
-                                <div className="flex items-center gap-2">
-                                  <AlertCircle className="h-4 w-4 text-amber-500" strokeWidth={2} />
-                                  <span className="text-sm text-amber-700">Human-in-the-Loop 승인 필요</span>
-                                </div>
-                              </AITooltip>
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr>
+                          <th className="px-4 py-2">모듈</th>
+                          <th className="px-4 py-2">T-Code</th>
+                          <th className="px-4 py-2">설명</th>
+                          <th className="px-4 py-2">신뢰도</th>
+                          <th className="px-4 py-2">승인</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {sapModules.map((module, index) => (
+                          <tr key={index} className={`border-b ${module.recommended ? "bg-green-50" : ""}`}>
+                            <td className="px-4 py-2">{module.module}</td>
+                            <td className="px-4 py-2">{module.tcode}</td>
+                            <td className="px-4 py-2">{module.description}</td>
+                            <td className="px-4 py-2">
+                              <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                                AI {module.confidence}%
+                              </Badge>
+                            </td>
+                            <td className="px-4 py-2">
                               <div className="flex gap-2">
                                 <Button variant="outline" size="sm">
                                   <X className="h-4 w-4 mr-1" strokeWidth={2} />
@@ -547,11 +516,11 @@ export default function JournalEntryModule() {
                                   승인 및 전송
                                 </Button>
                               </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </AITooltip>
-                    ))}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </CardContent>
               </Card>
@@ -658,21 +627,18 @@ export default function JournalEntryModule() {
         </div>
 
         <AITooltip content="AI 기반 3단계 워크플로우입니다. 각 단계는 머신러닝과 자동화 기술을 활용하여 효율성과 정확성을 극대화합니다.">
-          <div className="grid grid-cols-3 gap-4 mb-8">
+          <div className="flex flex-wrap gap-2 mb-8">
             {workflowSteps.map((step) => {
               const Icon = step.icon
               return (
                 <Button
                   key={step.id}
                   variant={step.active ? "default" : "outline"}
-                  className={`h-16 flex items-center justify-center gap-3 ${
-                    step.active ? "bg-blue-600 hover:bg-blue-700" : ""
-                  }`}
                   onClick={() => setCurrentStep(step.id)}
+                  className={`flex-1 min-w-[120px] ${step.active ? "bg-blue-600 hover:bg-blue-700" : ""}`}
                 >
-                  <Icon className="h-5 w-5" strokeWidth={2} />
-                  <span className="font-medium">{step.name}</span>
-                  <ChevronRight className="h-4 w-4" strokeWidth={2} />
+                  <Icon className="h-4 w-4 mr-2" strokeWidth={2} />
+                  {step.name}
                 </Button>
               )
             })}
